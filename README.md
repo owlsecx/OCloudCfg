@@ -18,23 +18,18 @@
 
 ## 📌 Overview
 
-Offline cloud IaC & config security auditor (Terraform / CloudFormation / Kubernetes)
+OCloudCfg is an offline, static security auditor for cloud Infrastructure-as-Code and configuration, with no cloud API calls. It parses Terraform (HCL and .tf.json), CloudFormation, Kubernetes manifests and Dockerfiles using its own tolerant parsers, flagging public buckets, open security groups, unencrypted resources, IAM wildcards and plaintext secrets. A policy engine maps rules to CIS benchmarks with a weighted score, A+…F grade and per-finding remediation.
 
 ---
 
 ## ✨ Features
 
-- Tolerant HCL-subset parser for Terraform .tf files (blocks, labels, attributes, lists, objects, heredocs, function calls) + native .tf.json support
-- Terraform auditor — AWS / GCP / Azure misconfigs: public buckets & ACLs, open security groups / NSGs / firewalls, unencrypted volumes, buckets & databases, public RDS / SQL, IAM wildcards, missing logging, plaintext secrets in variables, locals and providers
-- Own YAML-subset parser (block + flow, multi-document, block scalars, CloudFormation short-form !Tags)
-- CloudFormation auditor (YAML / JSON templates)
-- Kubernetes manifest auditor — privileged pods, host namespaces, root users, capabilities, hostPath, token automount, limits, :latest images, RBAC
-- Dockerfile quick check (pass-through, basic)
-- IaC secrets scanner with masked evidence
-- Policy engine — rule packs mapped to CIS benchmarks, ignore by rule id / resource / inline comment
-- Weighted score + A+…F grade, remediation per finding
-- Export TXT / MD / JSON / CSV / SARIF + clipboard
-- Full CLI mode (--path, --tf, --k8s, --fail-on, ...)
+- Tolerant HCL-subset Terraform parser plus native .tf.json support
+- Terraform AWS/GCP/Azure checks: public buckets, open SGs/NSGs, IAM wildcards, secrets
+- CloudFormation (YAML/JSON) and Kubernetes manifest auditing
+- Dockerfile quick check and masked IaC secrets scanning
+- Policy engine with CIS-mapped rule packs and inline/id/resource ignores
+- Weighted score, A+…F grade and export TXT/MD/JSON/CSV/SARIF
 
 ---
 
@@ -48,7 +43,10 @@ Offline cloud IaC & config security auditor (Terraform / CloudFormation / Kubern
 ## 🚀 Usage
 
 ```bash
-./OCloudCfg
+./OCloudCfg ./infra/
+./OCloudCfg --path main.tf --tf --format sarif -o report.sarif --fail-on high
+./OCloudCfg --path ./k8s/ --k8s --secrets
+./OCloudCfg --help
 ```
 
 ---
